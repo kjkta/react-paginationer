@@ -11,7 +11,8 @@ class Pagination extends React.Component<
       hasNextPage: boolean,
       hasPrevPage: boolean,
       goToNextPage: () => void,
-      goToPrevPage: () => void
+      goToPrevPage: () => void,
+      listEmpty: boolean
     }) => React.Element<*>,
     itemsPerPage: number,
     defaultPage: number
@@ -54,7 +55,8 @@ class Pagination extends React.Component<
       hasNextPage: this.getPages().length > this.state.currentPageIndex + 1,
       hasPrevPage: this.state.currentPageIndex - 1 >= 0,
       goToNextPage: () => this.movePages(1),
-      goToPrevPage: () => this.movePages(-1)
+        goToPrevPage: () => this.movePages(-1),
+        listEmpty: this.props.items.length <= 0
     });
   }
 }
