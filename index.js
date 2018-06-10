@@ -1,5 +1,5 @@
 // @flow
-import * as React from "react"
+import * as React from "react";
 
 class Pagination extends React.Component<
   {
@@ -22,6 +22,7 @@ class Pagination extends React.Component<
   }
 > {
   static defaultProps = {
+    items: [],
     itemsPerPage: 10,
     defaultPage: 0
   };
@@ -48,17 +49,25 @@ class Pagination extends React.Component<
     }));
   }
   render() {
-    return this.props.children({
-      currentPageItems: this.getPageItems(this.state.currentPageIndex),
-      currentPageNumber: this.state.currentPageIndex + 1,
-      totalPagesCount: this.getPages().length,
-      hasNextPage: this.getPages().length > this.state.currentPageIndex + 1,
-      hasPrevPage: this.state.currentPageIndex - 1 >= 0,
-      goToNextPage: () => this.movePages(1),
+    if (this.props.children || typeof this.props.children === "function") {
+      return this.props.children({
+        currentPageItems: this.getPageItems(this.state.currentPageIndex),
+        currentPageNumber: this.state.currentPageIndex + 1,
+        totalPagesCount: this.getPages().length,
+        hasNextPage: this.getPages().length > this.state.currentPageIndex + 1,
+        hasPrevPage: this.state.currentPageIndex - 1 >= 0,
+        goToNextPage: () => this.movePages(1),
         goToPrevPage: () => this.movePages(-1),
         listEmpty: this.props.items.length <= 0
-    });
+      });
+    } else {
+      // eslint-disable-next-line no-console
+      console.error(
+        "You have not provided a function as children to Paginator"
+      );
+      return null;
+    }
   }
 }
 
-export default Pagination
+export default Pagination;
