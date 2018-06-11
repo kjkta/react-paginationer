@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import renderer from "react-test-renderer";
 import Pagination from "../react_paginationer";
