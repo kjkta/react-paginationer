@@ -4,7 +4,7 @@
   "description": "Paginate anything in any way with functionized React children",
   "main": "react_paginationer.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watch",
     "dev": "babel index.js --watch --out-file react_paginationer.js",
     "build": "babel index.js --out-file react_paginationer.js",
     "prepare": "yarn build"
@@ -40,8 +40,8 @@
     ],
     "env": {
       "browser": true,
-      "node": true,
-      "es6": true
+      "es6": true,
+      "jest": true
     },
     "plugins": [
       "react",
@@ -70,6 +70,8 @@
     "eslint": "^4.19.1",
     "eslint-plugin-flowtype": "^2.49.3",
     "eslint-plugin-react": "^7.9.1",
-    "flow-bin": "^0.73.0"
+    "flow-bin": "^0.73.0",
+    "jest": "^23.1.0",
+    "react-test-renderer": "^16.4.0"
   }
 }
