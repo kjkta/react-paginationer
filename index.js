@@ -24,10 +24,10 @@ class Pagination extends React.Component<
   static defaultProps = {
     items: [],
     itemsPerPage: 10,
-    defaultPage: 0
+    defaultPage: 1
   };
   state = {
-    currentPageIndex: this.props.defaultPage
+    currentPageIndex: this.props.defaultPage - 1
   };
   getPages() {
     const pages = this.props.items.reduce((paginatedItems, item, index) => {
