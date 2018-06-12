@@ -1,6 +1,6 @@
 {
   "name": "react-paginationer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Paginate anything in any way with functionized React children",
   "main": "react_paginationer.js",
   "scripts": {
