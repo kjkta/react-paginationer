@@ -17,9 +17,7 @@ describe("The Paginationer component", () => {
     expect(createInstance({}).render()).toBe(null);
   });
   it("returns empty pages list if items length is 0", () => {
-    expect(createInstance({ items: [] }).getPages().length).toBe(
-      0
-    );
+    expect(createInstance({ items: [] }).getPages().length).toBe(0);
   });
   it("generates pages when given a list of items", () => {
     expect(createInstance({ items: list }).getPages().length).toBeGreaterThan(
@@ -58,6 +56,7 @@ describe("The Paginationer component", () => {
         "totalPagesCount",
         "hasNextPage",
         "hasPrevPage",
+        "goToPage",
         "goToNextPage",
         "goToPrevPage",
         "listEmpty"
