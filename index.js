@@ -57,8 +57,12 @@ class Pagination extends React.Component<
       totalPagesCount: this.getPages().length,
       hasNextPage: this.getPages().length > this.state.currentPageIndex + 1,
       hasPrevPage: this.state.currentPageIndex - 1 >= 0,
-      goToPage: (pageIndex: number) =>
-        this.setState({ currentPageIndex: pageIndex }),
+      goToPage: (pageNo: number) => {
+        let pageIndex = pageNo - 1;
+        if (this.getPageItems(pageIndex).length > 0) {
+          this.setState({ currentPageIndex: pageIndex });
+        }
+      },
       goToNextPage: () => this.movePages(1),
       goToPrevPage: () => this.movePages(-1),
       listEmpty: this.props.items.length <= 0
