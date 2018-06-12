@@ -41,7 +41,8 @@ class Pagination extends React.Component<
     return pages;
   }
   getPageItems(pageNo: number) {
-    return this.getPages()[pageNo];
+    let pages = this.getPages()
+    return pages.length > 0 ? pages[pageNo] : [];
   }
   movePages(qty: number) {
     this.setState(({ currentPageIndex }) => ({

@@ -16,6 +16,11 @@ describe("The Paginationer component", () => {
   it("returns null if children is not a function", () => {
     expect(createInstance({}).render()).toBe(null);
   });
+  it("returns empty pages list if items length is 0", () => {
+    expect(createInstance({ items: [] }).getPages().length).toBe(
+      0
+    );
+  });
   it("generates pages when given a list of items", () => {
     expect(createInstance({ items: list }).getPages().length).toBeGreaterThan(
       0
