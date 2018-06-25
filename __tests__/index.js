@@ -21,13 +21,13 @@ describe("The Paginationer component", () => {
     expect(
       getInstanceChildrenProps({ items: [] }).currentPageItems.length
     ).toBe(0);
-    expect(
-      getInstanceChildrenProps({ items: list }).currentPageItems.length
-    ).toBe(4);
+    expect(getInstanceChildrenProps({ items: list }).currentPageItems).toEqual(
+      list
+    );
     expect(
       getInstanceChildrenProps({ items: list, itemsPerPage: 2 })
-        .currentPageItems.length
-    ).toBe(2);
+        .currentPageItems
+    ).toEqual([list[0], list[1]]);
   });
   it("gets current page number", () => {
     expect(getInstanceChildrenProps({ items: list }).currentPageNumber).toBe(1);
@@ -59,14 +59,22 @@ describe("The Paginationer component", () => {
   it("goes forward and back pages", () => {
     const instance = createInstance({ items: list, itemsPerPage: 2 });
 
-    expect(instance.getChildrenProps().hasNextPage).toEqual(true);
+    expect(instance.getChildrenProps().hasNextPage).toBe(true);
     instance.movePages(1);
-    expect(instance.state.currentPageIndex).toEqual(1);
-    expect(instance.getChildrenProps().hasNextPage).toEqual(false);
+    expect(instance.state.currentPageIndex).toBe(1);
+    expect(instance.getChildrenProps().currentPageItems).toEqual([
+      list[2],
+      list[3]
+    ]);
+    expect(instance.getChildrenProps().hasNextPage).toBe(false);
 
-    expect(instance.getChildrenProps().hasPrevPage).toEqual(true);
+    expect(instance.getChildrenProps().hasPrevPage).toBe(true);
     instance.movePages(-1);
-    expect(instance.state.currentPageIndex).toEqual(0);
-    expect(instance.getChildrenProps().hasPrevPage).toEqual(false);
+    expect(instance.state.currentPageIndex).toBe(0);
+    expect(instance.getChildrenProps().currentPageItems).toEqual([
+      list[0],
+      list[1]
+    ]);
+    expect(instance.getChildrenProps().hasPrevPage).toBe(false);
   });
 });
