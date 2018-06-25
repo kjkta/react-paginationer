@@ -8,59 +8,65 @@ function createInstance(props) {
   return renderer.create(<Pagination {...props} />).getInstance();
 }
 
+function getInstanceChildrenProps(props) {
+  return createInstance(props).getChildrenProps();
+}
+
 beforeEach(() => {
   console.error = () => {};
 });
 
 describe("The Paginationer component", () => {
-  it("returns null if children is not a function", () => {
-    expect(createInstance({}).render()).toBe(null);
-  });
-  it("returns empty pages list if items length is 0", () => {
-    expect(createInstance({ items: [] }).getPages().length).toBe(0);
-  });
-  it("generates pages when given a list of items", () => {
-    expect(createInstance({ items: list }).getPages().length).toBeGreaterThan(
-      0
-    );
-  });
-  it("generates items for the current page", () => {
+  it("gets current page items", () => {
     expect(
-      createInstance({ items: list }).getPageItems(0).length
-    ).toBeGreaterThan(0);
-  });
-  it("generates pages with a custom page length", () => {
+      getInstanceChildrenProps({ items: [] }).currentPageItems.length
+    ).toBe(0);
     expect(
-      createInstance({ items: list, itemsPerPage: 2 }).getPages().length
-    ).toEqual(2);
-  });
-  it("sets a default page", () => {
+      getInstanceChildrenProps({ items: list }).currentPageItems.length
+    ).toBe(4);
     expect(
-      createInstance({ items: list, defaultPage: 2 }).state.currentPageIndex
-    ).toEqual(1);
+      getInstanceChildrenProps({ items: list, itemsPerPage: 2 })
+        .currentPageItems.length
+    ).toBe(2);
+  });
+  it("gets current page number", () => {
+    expect(getInstanceChildrenProps({ items: list }).currentPageNumber).toBe(1);
+    expect(
+      getInstanceChildrenProps({ items: list, defaultPage: 4 })
+        .currentPageNumber
+    ).toBe(4);
+  });
+  it("gets total pages number", () => {
+    expect(getInstanceChildrenProps({ items: list }).totalPagesCount).toBe(1);
+    expect(
+      getInstanceChildrenProps({ items: list, itemsPerPage: 4 }).totalPagesCount
+    ).toBe(1);
+  });
+  it("checks there is a next page", () => {
+    let instance = getInstanceChildrenProps({ items: list, itemsPerPage: 2 });
+    expect(instance.hasNextPage).toBe(true);
+    expect(instance.hasPrevPage).toBe(false);
+  });
+  it("checks there is a previous page", () => {
+    let instance = getInstanceChildrenProps({
+      items: list,
+      itemsPerPage: 2,
+      defaultPage: 2
+    });
+    expect(instance.hasNextPage).toBe(false);
+    expect(instance.hasPrevPage).toBe(true);
   });
   it("goes forward and back pages", () => {
     const instance = createInstance({ items: list, itemsPerPage: 2 });
+
+    expect(instance.getChildrenProps().hasNextPage).toEqual(true);
     instance.movePages(1);
     expect(instance.state.currentPageIndex).toEqual(1);
+    expect(instance.getChildrenProps().hasNextPage).toEqual(false);
+
+    expect(instance.getChildrenProps().hasPrevPage).toEqual(true);
     instance.movePages(-1);
     expect(instance.state.currentPageIndex).toEqual(0);
-  });
-  it("generates children props", () => {
-    expect(
-      Object.keys(createInstance({ items: list }).getChildrenProps()).sort()
-    ).toEqual(
-      [
-        "currentPageItems",
-        "currentPageNumber",
-        "totalPagesCount",
-        "hasNextPage",
-        "hasPrevPage",
-        "goToPage",
-        "goToNextPage",
-        "goToPrevPage",
-        "listEmpty"
-      ].sort()
-    );
+    expect(instance.getChildrenProps().hasPrevPage).toEqual(false);
   });
 });
